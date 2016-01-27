@@ -73,7 +73,7 @@ function AppViewModel() {
         }
     });
 
-    // function that shows info about the restaurants when they are clicked in the map or in the listview
+    // function that shows info about a restaurant when it is clicked in the map or in the listview
     self.selectRestaurant = function (restaurant) {
 
         //marker information
@@ -87,9 +87,10 @@ function AppViewModel() {
         restaurant.marker.setAnimation(google.maps.Animation.BOUNCE);
 
         // remove the animation in the 'not last clicked marker'
-        self.restaurants().forEach(function (old_restaurant) {
-            if (restaurant != old_restaurant) {
-                old_restaurant.marker.setAnimation(null);
+        // resturant is the one clicked, the others must be still
+        self.restaurants().forEach(function (other_restaurant) {
+            if (restaurant != other_restaurant) {
+                other_restaurant.marker.setAnimation(null);
             }
         });
     };
