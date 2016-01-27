@@ -6,7 +6,6 @@ html,body,.wrapper {
     overflow-y:hidden;
 }
 
-
 #map {
     position: absolute;
     top: 0px;
@@ -46,14 +45,14 @@ html,body,.wrapper {
     border:1px solid #f5aca6;
 }
 
-
+/* responsive adapter for listview*/
 @media only screen and (max-width: 600px) {
     #over_map_list {
         height: 40%;
         position: absolute;
         width: 300px;
         top: 120px;
-        left: 10px;
+        left: 3px;
         z-index: 3;
         overflow: auto;
     }

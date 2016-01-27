@@ -6,7 +6,7 @@ Click on index.html or go to pablocz.github.io
 
 ## APPLICATION
 
-This web shows a map with the sushi restaurants in a certain area in Madrid.
+This web shows a map with the sushi restaurants in a certain area in Madrid, you can filter by name and markers are updated in the map.
 
 ## TOOLS
 
