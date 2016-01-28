@@ -5,6 +5,11 @@
  * @param {marker} google maps marker
  */
 
+//var foursquareUrl = "https://api.foursquare.com/v2/venues/search?client_id=SVXRU3Q5S31DCAPXBA1MPPTFOZYF2N4H0L1EDWWROPDDLQ2G&client_secret=40SOPZHMNKEHZ3MH4B1QLFPDHT5ZZ50JCSN2BGOI33SCN5K1&v=20130815&ll=40.420088,-3.688810&query=sushi"
+
+'use strict';
+
+
 var Restaurant = function (jsonObject, marker) {
     var self = this;
     //attributes of a restaurant
@@ -17,25 +22,19 @@ var Restaurant = function (jsonObject, marker) {
 
     self.contentString = '<p><b>' + self.name + '</b></p>'
         + '<p>' + self.address + '</p>';
-}
+};
 
 /* Main View Model Application*/
-function AppViewModel() {
+function AppViewModel(map, status) {
     var self = this;
 
     // url for the Foursquare connection
     var foursquareUrl = "https://api.foursquare.com/v2/venues/search?client_id=SVXRU3Q5S31DCAPXBA1MPPTFOZYF2N4H0L1EDWWROPDDLQ2G&client_secret=40SOPZHMNKEHZ3MH4B1QLFPDHT5ZZ50JCSN2BGOI33SCN5K1&v=20130815&ll=40.420088,-3.688810&query=sushi"
 
-    var infoWindow = new google.maps.InfoWindow();
-
-    function initialize() {
-        var map = GoogleMap();
-        self.fetchRestaurants(foursquareUrl);
-    };
-
+    self.shouldShowMessage = ko.observable(false);
     self.restaurants = ko.observableArray([]);
     self.currentFilter = ko.observable("");
-    self.restaurants.name = ko.observable("");
+
 
     //function that loads the restaurants in the listview and the map
     self.fetchRestaurants = function (url) {
@@ -57,10 +56,11 @@ function AppViewModel() {
                     });
 
                 });
-            }).error(function () {
-            $('#error_message').show();
+            }).fail(function () {
+            self.shouldShowMessage(true);
         });
-    }
+    };
+
 
     // function that filters the restaurants by name
     self.filterRestaurants = ko.computed(function () {
@@ -68,7 +68,7 @@ function AppViewModel() {
             return self.restaurants();
         } else {
             return ko.utils.arrayFilter(self.restaurants(), function (restaurant) {
-                return restaurant.name.toLowerCase().indexOf(self.currentFilter()) !== -1;
+                return restaurant.name.toLowerCase().indexOf(self.currentFilter().toLowerCase()) !== -1;
             });
         }
     });
@@ -95,17 +95,32 @@ function AppViewModel() {
         });
     };
 
-    google.maps.event.addDomListener(window, 'load', initialize);
-}
+    if (status == "OK") {
+        self.fetchRestaurants(foursquareUrl);
+        var infoWindow = new google.maps.InfoWindow();
+    }
+
+    else {
+        self.shouldShowMessage = ko.observable(true);
+    }
+
+
+};
 
 /* Google Map Configuration*/
-var GoogleMap = function initMap() {
-    var self = this;
-    map = new google.maps.Map(document.getElementById('map'), {
+function initMap() {
+    // this function will be called when the google maps api is loaded
+    var map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 40.420088, lng: -3.688810},
         zoom: 15
     });
+    var status = 'OK';
+    ko.applyBindings(new AppViewModel(map, status));
 
-    return map;
-};
-ko.applyBindings(new AppViewModel());
+}
+
+function errorHandling() {
+    // this function will be called when the google maps api is failed to load
+    var status = 'ERROR';
+    ko.applyBindings(new AppViewModel(map, status));
+}

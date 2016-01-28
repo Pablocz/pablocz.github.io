@@ -1,20 +1,22 @@
-html,body,.wrapper {
+html,
+body,
+.wrapper {
     height: 100%;
     width: 100%;
-    margin: 0px;
-    padding: 0px;
-    overflow-y:hidden;
+    margin: 0;
+    padding: 0;
+    overflow-y: hidden;
 }
 
-#map {
+.map {
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     height: 100%;
     width: 100%;
 }
 
-#over_map_search {
+.over_map_search {
     height: 100%;
     position: absolute;
     top: 50px;
@@ -22,18 +24,18 @@ html,body,.wrapper {
     z-index: 99;
 }
 
-#over_map_list {
-     height: 100%;
-     position: absolute;
-     width: 350px;
-     top: 0px;
-     right: 0px;
-     z-index: 3;
-     overflow: auto;
- }
+.over_map_list {
+    height: 100%;
+    position: absolute;
+    width: 350px;
+    top: 0;
+    right: 0;
+    z-index: 3;
+    overflow: auto;
+}
 
-#error_message {
-   display: none;
+.error_message {
+    /* display: none;*/
     margin: auto;
     top: 50%;
     right: 50%;
@@ -41,13 +43,27 @@ html,body,.wrapper {
 
 .error {
     position: absolute;
-    background:#ffecec;
-    border:1px solid #f5aca6;
+    background: #ffecec;
+    border: 1px solid #f5aca6;
+}
+
+.nav {
+    width: 300px;
+    position: absolute;
+    /* This trasform moves the drawer off canvas. */
+    -webkit-transform: translate(-300px, 0);
+    transform: translate(-300px, 0);
+    /* Optionally, we animate the drawer. */
+    transition: transform 0.3s ease;
+}
+.nav.open {
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0);
 }
 
 /* responsive adapter for listview*/
 @media only screen and (max-width: 600px) {
-    #over_map_list {
+    .over_map_list {
         height: 40%;
         position: absolute;
         width: 300px;
