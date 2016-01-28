@@ -27,15 +27,14 @@ body,
 .over_map_list {
     height: 100%;
     position: absolute;
-    width: 350px;
-    top: 0;
-    right: 0;
+    width: 300px;
+    top: 50px;
+
     z-index: 3;
     overflow: auto;
 }
 
 .error_message {
-    /* display: none;*/
     margin: auto;
     top: 50%;
     right: 50%;
@@ -47,29 +46,25 @@ body,
     border: 1px solid #f5aca6;
 }
 
-.nav {
-    width: 300px;
-    position: absolute;
-    /* This trasform moves the drawer off canvas. */
-    -webkit-transform: translate(-300px, 0);
-    transform: translate(-300px, 0);
-    /* Optionally, we animate the drawer. */
-    transition: transform 0.3s ease;
+.input-group {
+    width: 280px;
+    top: 10px;
 }
-.nav.open {
-    -webkit-transform: translate(0, 0);
-    transform: translate(0, 0);
+
+.btn:focus {
+    outline: none;
 }
 
 /* responsive adapter for listview*/
 @media only screen and (max-width: 600px) {
     .over_map_list {
-        height: 40%;
+        height: 30%;
         position: absolute;
         width: 300px;
-        top: 120px;
-        left: 3px;
+        top: 40px;
+        left: 0;
         z-index: 3;
         overflow: auto;
     }
 }
+

@@ -5,10 +5,7 @@
  * @param {marker} google maps marker
  */
 
-//var foursquareUrl = "https://api.foursquare.com/v2/venues/search?client_id=SVXRU3Q5S31DCAPXBA1MPPTFOZYF2N4H0L1EDWWROPDDLQ2G&client_secret=40SOPZHMNKEHZ3MH4B1QLFPDHT5ZZ50JCSN2BGOI33SCN5K1&v=20130815&ll=40.420088,-3.688810&query=sushi"
-
 'use strict';
-
 
 var Restaurant = function (jsonObject, marker) {
     var self = this;
@@ -34,7 +31,8 @@ function AppViewModel(map, status) {
     self.shouldShowMessage = ko.observable(false);
     self.restaurants = ko.observableArray([]);
     self.currentFilter = ko.observable("");
-
+    self.shouldShowListView = ko.observable(true);
+    self.buttonText = ko.observable("Hide");
 
     //function that loads the restaurants in the listview and the map
     self.fetchRestaurants = function (url) {
@@ -94,6 +92,19 @@ function AppViewModel(map, status) {
             }
         });
     };
+    // function that shows or hides the listview when clicking the button
+    self.toggleListView = function () {
+
+        if(self.shouldShowListView()){
+            self.shouldShowListView(false);
+            self.buttonText("Show");
+        }
+       else{
+            self.shouldShowListView(true);
+            self.buttonText("Hide");
+        }
+
+    };
 
     if (status == "OK") {
         self.fetchRestaurants(foursquareUrl);
@@ -103,8 +114,6 @@ function AppViewModel(map, status) {
     else {
         self.shouldShowMessage = ko.observable(true);
     }
-
-
 };
 
 /* Google Map Configuration*/
@@ -112,7 +121,8 @@ function initMap() {
     // this function will be called when the google maps api is loaded
     var map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 40.420088, lng: -3.688810},
-        zoom: 15
+        zoom: 15,
+        disableDefaultUI: true
     });
     var status = 'OK';
     ko.applyBindings(new AppViewModel(map, status));
