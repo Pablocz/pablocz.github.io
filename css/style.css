@@ -29,7 +29,6 @@ body,
     position: absolute;
     width: 300px;
     top: 50px;
-
     z-index: 3;
     overflow: auto;
 }
