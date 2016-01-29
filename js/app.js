@@ -26,7 +26,7 @@ function AppViewModel(map, status) {
     var self = this;
 
     // url for the Foursquare connection
-    var foursquareUrl = "https://api.foursquare.com/v2/venues/search?client_id=SVXRU3Q5S31DCAPXBA1MPPTFOZYF2N4H0L1EDWWROPDDLQ2G&client_secret=40SOPZHMNKEHZ3MH4B1QLFPDHT5ZZ50JCSN2BGOI33SCN5K1&v=20130815&ll=40.420088,-3.688810&query=sushi"
+    var foursquareUrl = "https://api.foursquare.com/v2/venues/search?client_id=SVXRU3Q5S31DCAPXBA1MPPTFOZYF2N4H0L1EDWWROPDDLQ2G&client_secret=40SOPZHMNKEHZ3MH4B1QLFPDHT5ZZ50JCSN2BGOI33SCN5K1&v=20130815&ll=40.420088,-3.688810&query=sushi";
 
     self.shouldShowMessage = ko.observable(false);
     self.restaurants = ko.observableArray([]);
@@ -46,6 +46,8 @@ function AppViewModel(map, status) {
                         title: venues.name
                     });
 
+                    // I WILL TRY GOOGLE BOUNDS IN THE NEXT PROJECTS
+
                     var restaurant = new Restaurant(venues, marker);
                     self.restaurants.push(restaurant);
 
@@ -62,13 +64,30 @@ function AppViewModel(map, status) {
 
     // function that filters the restaurants by name
     self.filterRestaurants = ko.computed(function () {
+        // markers are set to not visible while filtering
+        self.restaurants().forEach(function (restaurant) {
+            restaurant.marker.setVisible(false);
+            infoWindow.close();
+        });
+
         if (!self.currentFilter()) {
+            // if there is no filtering word markers are set to visible
+            self.restaurants().forEach(function (restaurant) {
+                restaurant.marker.setVisible(true);
+            });
             return self.restaurants();
         } else {
-            return ko.utils.arrayFilter(self.restaurants(), function (restaurant) {
+            var filteredRestaurants = ko.utils.arrayFilter(self.restaurants(), function (restaurant) {
                 return restaurant.name.toLowerCase().indexOf(self.currentFilter().toLowerCase()) !== -1;
             });
         }
+
+        // finally just filtered restaurants are showed
+        filteredRestaurants.forEach(function (restaurant) {
+            restaurant.marker.setVisible(true);
+        });
+
+        return filteredRestaurants;
     });
 
     // function that shows info about a restaurant when it is clicked in the map or in the listview
@@ -84,6 +103,11 @@ function AppViewModel(map, status) {
         // marker effect
         restaurant.marker.setAnimation(google.maps.Animation.BOUNCE);
 
+        // bounce finishes after 2.1 seconds
+        window.setTimeout(function () {
+            restaurant.marker.setAnimation(null);
+        }, 2100);
+
         // remove the animation in the 'not last clicked marker'
         // resturant is the one clicked, the others must be still
         self.restaurants().forEach(function (other_restaurant) {
@@ -95,11 +119,11 @@ function AppViewModel(map, status) {
     // function that shows or hides the listview when clicking the button
     self.toggleListView = function () {
 
-        if(self.shouldShowListView()){
+        if (self.shouldShowListView()) {
             self.shouldShowListView(false);
             self.buttonText("Show");
         }
-       else{
+        else {
             self.shouldShowListView(true);
             self.buttonText("Hide");
         }
@@ -114,7 +138,7 @@ function AppViewModel(map, status) {
     else {
         self.shouldShowMessage = ko.observable(true);
     }
-};
+}
 
 /* Google Map Configuration*/
 function initMap() {

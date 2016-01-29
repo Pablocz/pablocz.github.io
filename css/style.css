@@ -16,16 +16,9 @@ body,
     width: 100%;
 }
 
-.over_map_search {
-    height: 100%;
-    position: absolute;
-    top: 50px;
-    left: 3px;
-    z-index: 99;
-}
 
 .over_map_list {
-    height: 100%;
+    height: calc(100% - 30px);
     position: absolute;
     width: 300px;
     top: 50px;
