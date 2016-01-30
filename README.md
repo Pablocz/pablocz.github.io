@@ -2,7 +2,7 @@
 
 ## HOW TO RUN
 
-Click on index.html or go to pablocz.github.io
+Go to http://pablocz.github.io to test the application
 
 ## APPLICATION
 

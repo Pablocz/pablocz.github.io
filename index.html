@@ -39,17 +39,16 @@
         </div>
     </div>
 
-    <div id="error_message" class="over_map_list" data-bind="visible: shouldShowMessage" class="error">DATA COULDN'T BE
-        LOADED
+    <div id="error_message" data-bind="visible: shouldShowMessage" class="error_message">
+        DATA COULDN'T BE LOADED
     </div>
 </div>
 
 <script src="lib/knockout-3.4.0.js"></script>
 <script src="lib/jquery.min.js"></script>
+<script src="js/app.js"></script>
 <script async defer
         src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDLKNh4KUGmnUViudBLBriN52uDn3kCjtE&callback=initMap"
         onerror="errorHandling()"></script>
-<script src="js/app.js"></script>
-
 </body>
 </html>

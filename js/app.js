@@ -53,6 +53,9 @@ function AppViewModel(map, status) {
 
                     google.maps.event.addListener(restaurant.marker, 'click', function () {
                         self.selectRestaurant(restaurant);
+                        // Posible option of hiding listview when click marker
+                      //  self.shouldShowListView(false);
+                      //  self.buttonText("Show");
                     });
 
                 });
@@ -99,6 +102,8 @@ function AppViewModel(map, status) {
 
         //movement in the map
         map.panTo(restaurant.marker.position);
+        //Showing marker in a lower position to avoid that listview hides infowindow
+        map.panBy(0, -150);
 
         // marker effect
         restaurant.marker.setAnimation(google.maps.Animation.BOUNCE);
@@ -127,7 +132,6 @@ function AppViewModel(map, status) {
             self.shouldShowListView(true);
             self.buttonText("Hide");
         }
-
     };
 
     if (status == "OK") {
